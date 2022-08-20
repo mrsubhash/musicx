@@ -4,7 +4,7 @@ import prisma from "./prisma";
 
 export const validateRoute = (handler) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
-    const { musicx_token: token } = req.cookies;
+    const token = req.cookies.musicx_token;
 
     if (token) {
       let user;
