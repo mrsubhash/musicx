@@ -3,6 +3,7 @@ import NextLink from "next/link";
 import {
   Box,
   Divider,
+  Flex,
   LinkBox,
   LinkOverlay,
   List,
@@ -61,59 +62,65 @@ const Sidebar = () => {
       paddingX="5px"
       color="gray"
     >
-      <Box paddingY="20px" height="100%">
-        <Box width="120px" marginBottom="20px" paddingX="20px">
-          {/* TODO: Add logo here */}
-          <NextImage src="" height="60px" width="120px" />
+      <Flex direction="column" paddingY="20px" maxHeight="100%">
+        <Box>
+          <Box marginBottom="20px" paddingX="20px">
+            <NextImage
+              src="/musicx-logos_white.png"
+              height="60px"
+              width="180px"
+              objectFit="cover"
+            />
+          </Box>
+          <Box marginBottom="20px">
+            <List spacing={2}>
+              {navMenu.map((menu) => {
+                return (
+                  <ListItem paddingX="20px" fontSize="16px" key={menu.name}>
+                    <LinkBox>
+                      <NextLink href={menu.route} passHref>
+                        <LinkOverlay>
+                          <ListIcon
+                            as={menu.icon}
+                            color="white"
+                            marginRight="20px"
+                          />
+                          {menu.name}
+                        </LinkOverlay>
+                      </NextLink>
+                    </LinkBox>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Box>
+          <Box marginTop="20px">
+            <List spacing={2}>
+              {musicMenu.map((menu) => {
+                return (
+                  <ListItem paddingX="20px" fontSize="16px" key={menu.name}>
+                    <LinkBox>
+                      <NextLink href={menu.route} passHref>
+                        <LinkOverlay>
+                          <ListIcon
+                            as={menu.icon}
+                            color="white"
+                            marginRight="20px"
+                          />
+                          {menu.name}
+                        </LinkOverlay>
+                      </NextLink>
+                    </LinkBox>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Box>
         </Box>
-        <Box marginBottom="20px">
+        <Divider color="gray.800" marginTop="20px" />
+        <Box overflowY="auto" paddingY="20px">
           <List spacing={2}>
-            {navMenu.map((menu) => {
-              return (
-                <ListItem paddingX="20px" fontSize="16px" key={menu.name}>
-                  <LinkBox>
-                    <NextLink href={menu.route} passHref>
-                      <LinkOverlay>
-                        <ListIcon
-                          as={menu.icon}
-                          color="white"
-                          marginRight="20px"
-                        />
-                        {menu.name}
-                      </LinkOverlay>
-                    </NextLink>
-                  </LinkBox>
-                </ListItem>
-              );
-            })}
-          </List>
-        </Box>
-        <Box marginTop="20px">
-          <List spacing={2}>
-            {musicMenu.map((menu) => {
-              return (
-                <ListItem paddingX="20px" fontSize="16px" key={menu.name}>
-                  <LinkBox>
-                    <NextLink href={menu.route} passHref>
-                      <LinkOverlay>
-                        <ListIcon
-                          as={menu.icon}
-                          color="white"
-                          marginRight="20px"
-                        />
-                        {menu.name}
-                      </LinkOverlay>
-                    </NextLink>
-                  </LinkBox>
-                </ListItem>
-              );
-            })}
-          </List>
-        </Box>
-        <Divider color="gray.800" />
-        <Box height="66%" overflowY="auto" paddingY="20px">
-          <List spacing={2}>
-            {playlists.map((playlist) => {
+            {playlists.sort(playlistSortFn).map((playlist) => {
               return (
                 <ListItem paddingX="20px" fontSize="16px" key={playlist.id}>
                   <LinkBox>
@@ -134,9 +141,13 @@ const Sidebar = () => {
             })}
           </List>
         </Box>
-      </Box>
+      </Flex>
     </Box>
   );
 };
 
 export default Sidebar;
+
+function playlistSortFn(a, b) {
+  return a.name.split("#")[1] - b.name.split("#")[1];
+}

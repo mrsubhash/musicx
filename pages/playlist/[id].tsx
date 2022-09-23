@@ -8,9 +8,9 @@ const getBgColor = (id) => {
     "red",
     "green",
     "blue",
-    "organe",
+    "orange",
     "purple",
-    "grey",
+    "gray",
     "teal",
     "yellow",
   ];
